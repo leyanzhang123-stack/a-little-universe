@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#12142B">
+<meta name="description" content="A birthday site. Public demo build.">
+<title>A Little Universe</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕯️</text></svg>">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body class="night locked">
+
+<!-- night backdrop, fades to day on enter -->
+<div id="backdrop" aria-hidden="true"></div>
+<div id="aurora" aria-hidden="true">
+  <i class="au au1"></i><i class="au au2"></i><i class="au au3"></i><i class="au au4"></i>
+</div>
+<div id="glow" aria-hidden="true"></div>
+<canvas id="stars" aria-hidden="true"></canvas>
+
+<!-- ========== prelude / loading ========== -->
+<div id="prelude" class="veil">
+  <div class="pre-box">
+    <p class="pre-en" id="preEn">A LITTLE UNIVERSE</p>
+    <h1 class="pre-cn" id="preCn">A Little Universe</h1>
+    <div class="pre-load">
+      <p class="pre-status" id="preStatus">Loading memories...</p>
+      <div class="pre-bar"><i id="preBar"></i></div>
+      <p class="pre-pct" id="prePct">0%</p>
+    </div>
+    <div class="pre-btns" id="preBtns">
+      <button class="ghost" id="btnEnterPre">ENTER</button>
+      <button class="ghost" id="btnOr">OR?</button>
+    </div>
+    <p class="pre-or" id="preOrMsg" aria-live="polite"></p>
+  </div>
+</div>
+
+<!-- ========== prologue / eighteen candles ========== -->
+<div id="opening" class="veil">
+  <header class="op-head">
+    <p class="ch-line" id="opLine">PROLOGUE · EIGHTEEN CANDLES</p>
+    <h1 class="op-title" id="opTitle">Happy 18th, Mia</h1>
+    <p class="op-sub" id="opSub">Light the eighteen candles first</p>
+  </header>
+
+  <div class="op-count"><b id="opNum">0</b><span>/ 18</span></div>
+  <p class="op-hint" id="opHint">Press and drag across each candle</p>
+
+  <div class="cake" id="cake">
+    <div class="cake-glow"></div>
+    <div class="candles" id="candles"></div>
+    <div class="cake-body"></div>
+  </div>
+
+  <div class="torch" id="torch" aria-hidden="true"></div>
+
+  <div class="op-foot">
+    <p class="op-done" id="opDone"></p>
+    <button class="ghost ghost-lit btn-enter" id="btnEnter">Enter the memory universe</button>
+    <button class="op-skip" id="btnSkip">Skip</button>
+  </div>
+</div>
+
+<!-- ========== main site ========== -->
+<main id="app">
+
+  <button class="mute" id="mute" aria-label="Background music" aria-pressed="false" hidden>
+    <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor"
+         stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M11 5 6 9H3v6h3l5 4V5Z"></path>
+      <g class="mt-on"><path d="M15.5 8.5a5 5 0 0 1 0 7"></path><path d="M18.5 6a9 9 0 0 1 0 12"></path></g>
+      <g class="mt-off"><path d="M16 9.5 21 14.5"></path><path d="M21 9.5 16 14.5"></path></g>
+    </svg>
+  </button>
+  <button class="moon" id="moon" title="?" aria-label="Easter egg">🌙</button>
+  <nav id="chapnav" aria-label="Chapter navigation"></nav>
+
+  <!-- hero -->
+  <section id="hero" data-tint="dawn">
+    <div class="wrap">
+      <p class="ch-line" id="heroBadge">HAPPY 18TH</p>
+      <h1 class="hero-title" id="heroTitle">Mia</h1>
+      <p class="hero-date" id="heroDate"></p>
+      <p class="hero-sub" id="heroSub">A whole little universe of memories in here. Take your time.</p>
+      <div class="scroll-cue"><i></i>SCROLL</div>
+    </div>
+  </section>
+
+  <!-- 1. memories -->
+  <section id="memories" data-tint="cream">
+    <div class="wrap">
+      <header class="ch-head reveal" data-ch="memories"></header>
+      <div class="memline" id="memline"></div>
+    </div>
+  </section>
+
+  <!-- 2. meals -->
+  <section id="meals-sec" data-tint="peach">
+    <div class="wrap">
+      <header class="ch-head reveal" data-ch="meals"></header>
+      <div class="meal-grid" id="mealGrid"></div>
+    </div>
+  </section>
+
+  <!-- 3. childhood -->
+  <section id="childhood-sec" data-tint="sky">
+    <div class="wrap">
+      <header class="ch-head reveal" data-ch="childhood"></header>
+      <div class="kid-wall" id="kidWall"></div>
+    </div>
+  </section>
+
+  <!-- 4. our song -->
+  <section id="song-sec" data-tint="lilac">
+    <div class="wrap">
+      <header class="ch-head reveal" data-ch="song"></header>
+      <div class="song-card reveal" id="songCard"></div>
+    </div>
+  </section>
+
+  <!-- 5. letter -->
+  <section id="letter" data-tint="warm">
+    <div class="wrap">
+      <header class="ch-head reveal" data-ch="letter"></header>
+      <div class="reveal">
+        <div class="envelope" id="envelope" role="button" tabindex="0" aria-label="Open the letter">
+          <div class="seal">✉</div>
+          <span class="env-hint">TAP TO OPEN</span>
+        </div>
+        <article class="paper" id="paper"></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. ending -->
+  <section id="surprise" data-tint="dusk">
+    <div class="wrap">
+      <header class="ch-head reveal" data-ch="surprise"></header>
+      <div class="reveal">
+        <p class="sp-hint" id="spHint">Close your eyes and make a wish</p>
+        <div class="wish-cake" id="wishCake" role="button" tabindex="0" aria-label="Blow out the candles">
+          <span class="smoke"></span>
+          <div class="wc-flame"></div>
+          <div class="wc-stick"></div>
+          <div class="wc-base"></div>
+        </div>
+        <button class="ghost ghost-ink" id="btnBlow">Blow out the candles</button>
+        <div class="sp-final" id="spFinal"></div>
+        <div class="finale" id="finale"></div>
+      </div>
+    </div>
+  </section>
+
+  <footer id="foot">MADE WITH ♡ · FOR MIA</footer>
+</main>
+
+<!-- lightbox -->
+<div id="lightbox" role="dialog" aria-modal="true">
+  <button class="lb-close" id="lbClose" aria-label="Close">✕</button>
+  <figure>
+    <img class="lb-img" id="lbImg" alt="">
+    <figcaption><h4 id="lbTitle"></h4><p id="lbText"></p></figcaption>
+  </figure>
+</div>
+
+<!-- hidden easter egg -->
+<div id="secret" role="dialog" aria-modal="true">
+  <div class="secret-card">
+    <div class="em">🌙</div>
+    <p id="secretText"></p>
+    <button class="ghost ghost-ink" id="secretClose">Got it</button>
+  </div>
+</div>
+
+<script src="content.js"></script>
+<script src="main.js"></script>
+</body>
+</html>

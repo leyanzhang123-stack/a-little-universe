@@ -1,0 +1,4 @@
+# Build output. dist/site/ is the deployable folder and is committed;
+# the preview HTML, the standalone HTML and the upload zip are not.
+dist/*
+!dist/site/
